@@ -4,10 +4,9 @@ using namespace std;
 
 long GENERATE_PRIME_CANDIDATE(long b) {  // 2^(b-1) rand()% 2^b -1;
     long mini = pow(2, b - 1); long maxi = pow(2, b) - 1; long n;
-    n = rand() % maxi+1; // n es de 10 bits, 1xxxxxxxx1 y es impar
+    n = rand() % maxi; // n es de 10 bits, 1xxxxxxxx1 y es impar
     if (!(n % 2)) { 
         n = n + 1;
-        if (n < mini)n = n + mini;
     }
     long m = pow(2, b - 1) + 1; // mascara
     n = n | m;
@@ -59,7 +58,7 @@ bool MILLER_RABIN(long long n, long long  s) {// n
 long GENERATE_PRIME(long b) {
     int s = 128;  // s = 128 
     long n = GENERATE_PRIME_CANDIDATE(b);
-    while (MILLER_RABIN(n, s)) {
+    while (!MILLER_RABIN(n, s)) {
         n = n + 2;
     }
     return n;
@@ -67,9 +66,10 @@ long GENERATE_PRIME(long b) {
 
 
 int main() {
-    long b = 10;
+    long b =10;
     long array[100];
     long i = GENERATE_PRIME(b);
+    
     array[0] = i;
     int cont = 1;
     while (true) {
